@@ -9,10 +9,16 @@ using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking_System.Users
 {
-    public class Manager
+    public class Manager : Person
     {
         public List<Ticket> _ticketList = Repository.LoadTickets();
         public List<Passenger> _passengerList = Repository.LoadPassengers();
+
+        public Manager(string? id, string? name,
+            DateTime? dateOfBirth, string? phoneNumber) : base(id, name, dateOfBirth, phoneNumber)
+        {
+            _ticketList = Repository.LoadTickets().ToList();
+        }
         public void SearchParameters(string? departureCountry = null, string? destinationCountry = null,
             DateTime? departureDate = null, DateTime? arrivalDate = null, string? departureAirport = null,
             string? arrivalAirport = null, FlightClass? flightClass = null, double? price = null,
