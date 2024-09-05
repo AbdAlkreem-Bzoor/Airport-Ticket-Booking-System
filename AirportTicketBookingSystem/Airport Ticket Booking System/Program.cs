@@ -9,19 +9,14 @@ namespace Airport_Ticket_Booking_System
     {
         public static void Main(string[] args)
         {
-            var p = new Passenger("202", "Abdalkreem", DateTime.Now, "0594451851");
-            for (int i = 0; i < p._ticketList.Count; i++)
-            {
-                p.AddTicket(p._ticketList[i].Id);
-            }
-            Console.WriteLine(p);
-            Console.WriteLine("__________________________________________________________");
-            var islam = new Passenger("203", "Islam", DateTime.Now, "0569788944");
-            for (int i = 0; i < islam._ticketList.Count; i++)
-            {
-                islam.AddTicket(islam._ticketList[i].Id);
-            }
-            Console.WriteLine(islam);
+            var p = new Passenger("202124", "Osama", DateTime.Now, "0593819201");
+
+            p.SearchParameters("USA");
+            p.SearchParameters(null, "USA"); // allow the user to search about the flight he want based on one parameter, two, thre and so on
+
+            Manager m = new Manager("12234", "Ali", DateTime.Parse("1990-09-23"), "0483345987");
+            m._passengerList.Add(p);
+            m.WritePassengersDataOnFile();
 
             Console.ReadKey();
         }
