@@ -9,11 +9,11 @@ namespace Airport_Ticket_Booking_System.Flights.Attributes
            countriesAirports = Repository.LoadCountriesAirports().ToList();
         public AirportsAttribute(string property, string type, string constraint)
            : base(property, type, constraint) { }
-        public static bool IsValid(string airport, string country) => IsValid(country) && countriesAirports
+        public bool IsValid(string? airport, string? country) => IsValid(country) && countriesAirports
                                       .Any(x =>
-                                      string.Equals(x.country, country, StringComparison.OrdinalIgnoreCase) && x.airports
-                                      .Any(y => string.Equals(y.ariport, airport, StringComparison.OrdinalIgnoreCase) ||
-                                      string.Equals(y.airportFullName, airport, StringComparison.OrdinalIgnoreCase)));
+                                      string.Equals(x.country, country) && x.airports
+                                      .Any(y => string.Equals(y.ariport, airport) ||
+                                      string.Equals(y.airportFullName, airport)));
     }
 }
 

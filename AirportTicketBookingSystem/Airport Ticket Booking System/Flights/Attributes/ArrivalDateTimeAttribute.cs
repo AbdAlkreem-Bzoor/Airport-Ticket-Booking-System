@@ -4,7 +4,7 @@
     {
         public ArrivalDateTimeAttribute(string property, string type, string constraint)
             : base(property, type, constraint) { }
-        public bool IsValid(DateTime d, DateTime a) => a > d;
+        public bool IsValid(DateTime? d, DateTime? a) => a > d;
     }
 }
 
