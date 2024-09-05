@@ -5,7 +5,7 @@
     {
         public DepartureDateTimeAttribute(string property, string type, string constraint)
             : base(property, type, constraint) { }
-        public static bool IsValid(DateTime dt) => dt >= DateTime.Today;
+        public bool IsValid(DateTime? dt) => dt >= DateTime.Today;
     }
 }
 

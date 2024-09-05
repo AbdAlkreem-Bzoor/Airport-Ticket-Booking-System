@@ -5,8 +5,8 @@
         public ValidationAttribute(string property, string type, string constraint)
         {
             Property = property;
-            Type = type;
-            Constraint = constraint;
+            Type = "Type: " + type;
+            Constraint = "Constraint: " + constraint;
         }
 
         public string Property { get; init; }
