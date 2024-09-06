@@ -17,7 +17,6 @@ namespace Airport_Ticket_Booking_System.Users
         public Manager(string? id, string? name,
             DateTime? dateOfBirth, string? phoneNumber) : base(id, name, dateOfBirth, phoneNumber)
         {
-            _ticketList = Repository.LoadTickets().ToList();
         }
         public void SearchParameters(string? departureCountry = null, string? destinationCountry = null,
             DateTime? departureDate = null, DateTime? arrivalDate = null, string? departureAirport = null,
@@ -30,7 +29,7 @@ namespace Airport_Ticket_Booking_System.Users
             var passenger = new Passenger(id, name, dateOfBirth, phoneNumber);
             var tickets = _ticketList.Where(t => t.Equals(search)).ToList();
             var passengers = _passengerList.Where(p => p.Equals(passenger)).ToList();
-            HashSet<Ticket> set = new HashSet<Ticket>();
+            var set = new HashSet<Ticket>();
             if (tickets is not null)
             {
                 foreach (var ticket in tickets)

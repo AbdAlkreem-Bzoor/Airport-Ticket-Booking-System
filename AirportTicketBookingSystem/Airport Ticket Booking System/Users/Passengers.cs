@@ -11,7 +11,7 @@ namespace Airport_Ticket_Booking_System.Users
 {
     public class Passenger : Person
     {
-        internal List<Ticket> _ticketList = [];
+        private List<Ticket> _ticketList = [];
         internal List<Ticket> _myTicketList = [];
         public Passenger(string? id, string? name,
             DateTime? dateOfBirth, string? phoneNumber) : base(id, name, dateOfBirth, phoneNumber)
@@ -28,6 +28,7 @@ namespace Airport_Ticket_Booking_System.Users
                 flightClass, price);
 
             var tickets = _ticketList.Where(t => t.Equals(search)).ToList();
+            Console.WriteLine("List of available tickets:\n");
             if (tickets is not null)
             {
                 foreach (var ticket in tickets)
@@ -38,7 +39,13 @@ namespace Airport_Ticket_Booking_System.Users
         }
         public void AddTicket(int id)
         {
-            _myTicketList.Add(_ticketList.Where(t => t.Id == id).First());
+            var x = _ticketList.Where(t => t.Id == id);
+            if (x is null || !x.Any())
+            {
+                Console.WriteLine("The is no Flight with the provided 'id'");
+                return;
+            }
+            _myTicketList.Add(x.First());
         }
         public void CancelTicket(int id)
         {
@@ -51,15 +58,21 @@ namespace Airport_Ticket_Booking_System.Users
             {
                 if (ticket.Id == id)
                 {
-                    Console.Write($"Enter the Ticket id that you want to replace with: ");
+                    Console.Write($"Enter the Ticket id that you want to replace it with: ");
                     var x = Console.ReadLine() ?? "1";
+                    var l = _ticketList.Any(item => item.Id == int.Parse(x));
+                    if (!l)
+                    {
+                        Console.WriteLine("There is no Ticket with the provided id!");
+                        break;
+                    }
                     _myTicketList[index] = _ticketList.Where(t => t.Id == int.Parse(x)).First();
                     break;
                 }
                 index++;
             }
         }
-        public void Display()
+        public void ViewBookings()
         {
             foreach (var ticket in _myTicketList)
             {
