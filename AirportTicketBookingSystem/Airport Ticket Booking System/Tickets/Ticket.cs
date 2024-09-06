@@ -80,7 +80,7 @@ namespace Airport_Ticket_Booking_System.Tickets
                 $"Ticket Number: {Id}\n" +
                 $"Class: {FlightClass}\n" +
                 $"Price: {Price:C2}\n" +
-                $"{Flight}\n"; // Flight information
+                $"{Flight}\n";
         }
 
     }
