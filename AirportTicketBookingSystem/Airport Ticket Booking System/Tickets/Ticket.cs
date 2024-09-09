@@ -10,7 +10,6 @@ namespace Airport_Ticket_Booking_System.Tickets
     public class Ticket
     {
         private static int sequence = 0;
-        private int _id;
 
         public Ticket(Flight flight, FlightClass? flightClass, double? price)
         {
@@ -24,6 +23,11 @@ namespace Airport_Ticket_Booking_System.Tickets
         public FlightClass? FlightClass { get; init; }
         public double? Price { get; init; }
 
+        /// <summary>
+        /// This Method will check the equality between two tickets ignoring the null fileds of the two objects
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>True or False</returns>
         public override bool Equals(object? obj)
         {
             if (obj is null || obj is not Ticket)
@@ -43,10 +47,6 @@ namespace Airport_Ticket_Booking_System.Tickets
             if (other.Flight.DepartureDate is not null)
             {
                 result = result && Flight.DepartureDate == other.Flight.DepartureDate;
-            }
-            if (other.Flight.ArrivalDate is not null)
-            {
-                result = result && Flight.ArrivalDate == other.Flight.ArrivalDate;
             }
             if (other.Flight.DepartureAirport is not null)
             {
@@ -69,7 +69,7 @@ namespace Airport_Ticket_Booking_System.Tickets
         public override int GetHashCode()
         {
             return HashCode.Combine(Flight.DepartureCountry, Flight.DestinationCountry,
-                Flight.DepartureDate, Flight.ArrivalDate, Flight.DepartureAirport,
+                Flight.DepartureDate, Flight.DepartureAirport,
                 Flight.ArrivalAirport, FlightClass, Price);
         }
         public override string ToString()
