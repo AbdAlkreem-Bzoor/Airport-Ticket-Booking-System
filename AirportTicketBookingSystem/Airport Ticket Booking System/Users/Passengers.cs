@@ -18,24 +18,58 @@ namespace Airport_Ticket_Booking_System.Users
         {
             _ticketList = Repository.LoadTickets().ToList();
         }
-
-        public void SearchParameters(string? departureCountry = null, string? destinationCountry = null,
-            DateTime? departureDate = null, DateTime? arrivalDate = null, string? departureAirport = null,
-            string? arrivalAirport = null, FlightClass? flightClass = null, double? price = null)
+        public void SearchParameters(Ticket search)
         {
-            var search = new Ticket(new Flight(departureCountry, destinationCountry,
-                departureDate, arrivalDate, departureAirport, arrivalAirport),
-                flightClass, price);
-
             var tickets = _ticketList.Where(t => t.Equals(search)).ToList();
-            Console.WriteLine("List of available tickets:\n");
             if (tickets is not null)
             {
+                Console.WriteLine("List of available tickets:\n");
                 foreach (var ticket in tickets)
                 {
                     Console.WriteLine(ticket);
                 }
             }
+            else
+            {
+                Console.WriteLine("No available tickets!\n");
+            }
+        }
+        public void Search()
+        {
+            Console.WriteLine("Enter Departure Country: ");
+            var x = Console.ReadLine()?.Trim();
+            var departureCountry = x == "null" ? null : x;
+            Console.WriteLine("Enter Destination Country: ");
+            x = Console.ReadLine()?.Trim();
+            var destinationCountry = x == "null" ? null : x;
+            Console.WriteLine("Enter Departure Date: ");
+            x = Console.ReadLine()?.Trim();
+            DateTime? departureDate = x == "null" ? null : DateTime.Parse(x ?? DateTime.Now.ToString());
+            Console.WriteLine("Enter Departure Airport: ");
+            x = Console.ReadLine()?.Trim();
+            var departureAirport = x == "null" ? null : x;
+            Console.WriteLine("Enter Arrival Airport: ");
+            x = Console.ReadLine()?.Trim();
+            var arrivalAirport = x == "null" ? null : x;
+            Console.WriteLine("Enter Flight Class: ");
+            x = Console.ReadLine()?.Trim();
+            FlightClass? flightClass = x == "null" ? null : (FlightClass)
+                Enum.Parse(typeof(FlightClass), x ?? FlightClass.None.ToString());
+            Console.WriteLine("Enter Price: ");
+            x = Console.ReadLine()?.Trim();
+            double? price = x == "null" ? null : double.Parse(x ?? "0");
+            var search = new Ticket(new Flight(departureCountry, destinationCountry,
+                departureDate, departureAirport, arrivalAirport), flightClass, price);
+            SearchParameters(search);
+
+        }
+        public void Add()
+        {
+            Console.WriteLine("Enter Flight Id: ");
+            var id = int.Parse(Console.ReadLine() ?? "0");
+            var x = _ticketList.FirstOrDefault(x => x.Id == id);
+            if (x is not null)
+                _myTicketList.Add(x);
         }
         public void AddTicket(int id)
         {
@@ -47,9 +81,21 @@ namespace Airport_Ticket_Booking_System.Users
             }
             _myTicketList.Add(x.First());
         }
+        public void Cancel()
+        {
+            Console.WriteLine("Enter Flight Id: ");
+            var id = int.Parse(Console.ReadLine() ?? "0");
+            CancelTicket(id);
+        }
         public void CancelTicket(int id)
         {
             _myTicketList.RemoveAll(t => t.Id == id);
+        }
+        public void Modify()
+        {
+            Console.WriteLine("Enter Flight Id: ");
+            var id = int.Parse(Console.ReadLine() ?? "0");
+            ModifyTicket(id);
         }
         public void ModifyTicket(int id)
         {
@@ -71,6 +117,10 @@ namespace Airport_Ticket_Booking_System.Users
                 }
                 index++;
             }
+        }
+        public void Veiw()
+        {
+            ViewBookings();
         }
         public void ViewBookings()
         {
@@ -97,9 +147,7 @@ namespace Airport_Ticket_Booking_System.Users
                             $"|              |_______ Flight:\n" +
                             $"|                          |_ From: {ticket.Flight.DepartureCountry} ({ticket.Flight.DepartureAirport})\n" +
                             $"|                          |_ To: {ticket.Flight.DestinationCountry} ({ticket.Flight.ArrivalAirport})\n" +
-                            $"|                          |_ Departure: {ticket.Flight.DepartureDate:yyyy-MM-dd HH:mm}\n" +
-                            $"|                          |_ Arrival: {ticket.Flight.ArrivalDate:yyyy-MM-dd HH:mm}\n";
-            }
+                            $"|                          |_ Departure: {ticket.Flight.DepartureDate:yyyy-MM-dd HH:mm}\n";            }
 
             return toString;
         }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking_System.Errors
 {
+    /// <summary>
+    /// The Validation of a specific Error
+    /// </summary>
     public class Error
     {
         public string Property { get; init; }

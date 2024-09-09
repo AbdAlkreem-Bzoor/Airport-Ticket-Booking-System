@@ -10,7 +10,7 @@ namespace Airport_Ticket_Booking_System.Flights.Attributes
 
         public CountriesAttribute(string property, string type, string constraint)
             : base(property, type, constraint) { }
-        public bool IsValid(string? s) => !string.IsNullOrEmpty(s); //countries.Any(x => x == s);
+        public bool IsValid(string? s) => !string.IsNullOrEmpty(s);
     }
 }
 

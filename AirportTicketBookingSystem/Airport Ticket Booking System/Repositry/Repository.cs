@@ -38,105 +38,81 @@ namespace Airport_Ticket_Booking_System.Repositry
                     var str = line.Split(',');
                     for (int i = 0; i < str.Length; i++)
                         str[i] = str[i].Trim();
-                    var flight = new Flight(str[0], str[1], DateTime.Parse(str[2]),
-                        DateTime.Parse(str[3]), str[4], str[5]);
-                    var ticket = new Ticket(flight, (FlightClass)Enum.Parse(typeof(FlightClass), str[7]),
-                                 double.Parse(str[8]));
+                    var flight = new Flight(str[0], str[1], DateTime.Parse(str[2]), str[3], str[4]);
+                    var ticket = new Ticket(flight, (FlightClass)Enum.Parse(typeof(FlightClass), str[5]),
+                                 double.Parse(str[6]));
                     tickets.Add(ticket);
                 }
             }
-            foreach (var ticket in tickets)
-            {
-                Console.WriteLine(ticket);
-            }
             var errors = new List<Error>();
+            CheckForErrors(tickets, errors);
+            if (errors.Count > 0)
+            {
+                DisplayErrors(errors);
+                return [];
+            }
+            return tickets;
+        }
+
+        private static void DisplayErrors(List<Error> errors)
+        {
+            Console.WriteLine($"There is {errors.Count} errors in the input data, reinput them based on these conditions: ");
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error);
+                Console.WriteLine();
+            }
+        }
+
+        private static void CheckForErrors(List<Ticket> tickets, List<Error> errors)
+        {
             foreach (var ticket in tickets)
             {
                 var flight = ticket.Flight;
                 var properties = flight.GetType().GetProperties();
-                foreach (var property in properties)
-                {
-                    var value = property.GetValue(flight);
-                    var attributes = property.GetCustomAttributes();
-                    foreach (var attribute in attributes)
-                    {
-                        if (attribute is AirportsAttribute)
-                        {
-                            var attr = (AirportsAttribute)attribute;
-                            if (attr.Property == "Departure Airport")
-                            {
-                                var otherProp = properties
-                                    .FirstOrDefault(x => x.Name.EndsWith("DepartureCountry"));
-                                if (otherProp is not null
-                                    && attr.IsValid((string?)value, (string?)otherProp.GetValue(flight)))
-                                {
-                                    errors.Add(new Error(attr.Property + "\n",
-                                    "\t" + attr.Type + "\n" +
-                                    "\t" + attr.Constraint + "\n"));
-                                }
-                            }
-                            else
-                            {
-                                var otherProp = properties
-                                    .FirstOrDefault(x => x.Name.EndsWith("DestinationCountry"));
-                                if (otherProp is not null
-                                    && attr.IsValid((string?)value, (string?)otherProp.GetValue(flight)))
-                                {
-                                    errors.Add(new Error(attr.Property + "\n",
-                                    "\t" + attr.Type + "\n" +
-                                    "\t" + attr.Constraint + "\n"));
-                                }
-                            }
-                        }
-                        else if (attribute is CountriesAttribute)
-                        {
-                            var attr = (CountriesAttribute)attribute;
-                            if (!attr.IsValid((string?)value))
-                            {
-                                errors.Add(new Error(attr.Property + "\n",
-                                    "\t" + attr.Type + "\n" +
-                                    "\t" + attr.Constraint + "\n"));
-                            }
-                        }
-                        else if (attribute is ArrivalDateTimeAttribute)
-                        {
-                            var attr = (ArrivalDateTimeAttribute)attribute;
-                            var otherProp = properties
-                                    .FirstOrDefault(x => x.Name.EndsWith("DepartureDate"));
-                            if (otherProp is not null
-                                && attr.IsValid((DateTime?)value, (DateTime?)otherProp.GetValue(flight)))
-                            {
-                                errors.Add(new Error(attr.Property + "\n",
-                                "\t" + attr.Type + "\n" +
-                                "\t" + attr.Constraint + "\n"));
-                            }
-
-                        }
-                        else if (attribute is DepartureDateTimeAttribute)
-                        {
-                            var attr = (DepartureDateTimeAttribute)attribute;
-                            if (!attr.IsValid((DateTime?)value))
-                            {
-                                errors.Add(new Error(attr.Property + "\n",
-                                    "\t" + attr.Type + "\n" +
-                                    "\t" + attr.Constraint + "\n"));
-                            }
-                        }
-                    }
-
-                }
+                CheckProperties(errors, flight, properties);
             }
-            if (errors.Count > 0)
+        }
+
+        private static void CheckProperties(List<Error> errors, Flight flight, PropertyInfo[] properties)
+        {
+            foreach (var property in properties)
             {
-                Console.WriteLine($"There is {errors.Count} errors in the input data, reinput them based on these conditions: ");
-                foreach (var error in errors)
-                {
-                    Console.WriteLine(error);
-                    Console.WriteLine();
-                }
-                return [];
+                var value = property.GetValue(flight);
+                var attributes = property.GetCustomAttributes();
+                ValidateAttributes(errors, flight, properties, value, attributes);
+
             }
-            return tickets;
+        }
+
+        private static void ValidateAttributes(List<Error> errors, Flight flight, PropertyInfo[] properties, object? value, IEnumerable<Attribute> attributes)
+        {
+            foreach (var attribute in attributes)
+            {
+                if (attribute is CountriesAttribute)
+                {
+                    var attr = (CountriesAttribute)attribute;
+                    if (!attr.IsValid((string?)value))
+                    {
+                        AddError(errors, attr);
+                    }
+                }
+                else if (attribute is DepartureDateTimeAttribute)
+                {
+                    var attr = (DepartureDateTimeAttribute)attribute;
+                    if (!attr.IsValid((DateTime?)value))
+                    {
+                        AddError(errors, attr);
+                    }
+                }
+            }
+        }
+
+        private static void AddError(List<Error> errors, ValidationAttribute attr)
+        {
+            errors.Add(new Error(attr.Property + "\n",
+                                        "\t" + attr.Type + "\n" +
+                                        "\t" + attr.Constraint + "\n"));
         }
 
         public static void WritePassengersData(List<Passenger> passengers)
@@ -167,37 +143,24 @@ namespace Airport_Ticket_Booking_System.Repositry
             }
             return passengers;
         }
-        private static string ListToString(List<char> list)
+        public static List<(string? country, string? airport)> LoadCountriesAirports()
         {
-            var sb = new StringBuilder(list.Count);
-            foreach (char c in list)
-                sb.Append(c);
-            return sb.ToString();
-        }
-        public static List<(string? country, List<(string? airport, string? airportFullName)> airports)> LoadCountriesAirports()
-        {
-            var countriesAirports =
-                new List<(string? country, List<(string? airport, string? airportFullName)> airports)>();
+            var countriesAirports = new List<(string? country, string? airport)>();
             string path = @"D:\OneDrive\Desktop\Airport Ticket Booking System\Input\Airports_Countries.txt";
             using (var reader = new StreamReader(path))
             {
                 string? line = string.Empty;
                 while ((line = reader.ReadLine()) is not null)
                 {
-                    var country = ListToString(line.TakeWhile(c => c != ':').ToList());
-                    var str = ListToString(line.SkipWhile(c => c != ':').Skip(1).ToList()).Split(',');
-                    var airports = new List<(string? airport, string? airportFullName)>();
-                    foreach (var s in str)
-                    {
-                        var x = s.Trim().Split('(');
-                        var airport = x[0];
-                        var airportFullName = x[1].TrimEnd(')');
-                        airports.Add((airport, airportFullName));
-                    }
-                    countriesAirports.Add((country, airports));
+                    var splits = line.Split(':');
+                    var country = splits[0].Trim();
+                    var airport = splits[1].Trim();
+                    countriesAirports.Add((country, airport));
                 }
             }
             return countriesAirports;
         }
+
     }
+    
 }
