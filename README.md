@@ -15,6 +15,21 @@ Use the file system as the data storage layer.
 
 - **Choose a Class for the Flight:**
   - Economy, Business, First Class. Prices should vary according to the class selected.
+  
+- **Search for Available Flights:**
+  - Parameters:
+    - Price
+    - Departure Country
+    - Destination Country
+    - Departure Date
+    - Departure Airport
+    - Arrival Airport
+  - **The search functionality is realistic: if no price is specified, the search will return all matching flights without considering the price. To exclude a specific search parameter from filtering, set it to `null` if you don't care about that parameter.**
+
+- **Manage Bookings:**
+  - Cancel a booking
+  - Modify a booking
+  - View personal bookings
 
 ### For the Manager
 
@@ -47,19 +62,7 @@ Use the file system as the data storage layer.
       - Type: Date Time
       - Constraint: Required, Allowed Range (today → future)
 
-- **Search for Available Flights:**
-  - Parameters:
-    - Price
-    - Departure Country
-    - Destination Country
-    - Departure Date
-    - Departure Airport
-    - Arrival Airport
 
-- **Manage Bookings:**
-  - Cancel a booking
-  - Modify a booking
-  - View personal bookings
 
 ## How to Use
 
@@ -71,9 +74,3 @@ Use the file system as the data storage layer.
 
 3. **Manager Actions:**
    - Use the manager menu to upload flight data, validate imports, filter bookings, and manage existing bookings.
-
-## System Requirements
-
-- .NET Core SDK
-- Console environment for running the application
-- Access to the file system for data storage
