@@ -1,18 +1,13 @@
 ﻿using Airport_Ticket_Booking_System.Flights;
-using Airport_Ticket_Booking_System.Tickets;
 using Airport_Ticket_Booking_System.Repositry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Airport_Ticket_Booking_System.Tickets;
 
 namespace Airport_Ticket_Booking_System.Users
 {
     public class Passenger : Person
     {
-        private List<Ticket> _ticketList = [];
-        internal List<Ticket> _myTicketList = [];
+        private readonly List<Ticket> _ticketList = [];
+        internal readonly List<Ticket> _myTicketList = [];
         public Passenger(string? id, string? name,
             DateTime? dateOfBirth, string? phoneNumber) : base(id, name, dateOfBirth, phoneNumber)
         {
@@ -33,6 +28,21 @@ namespace Airport_Ticket_Booking_System.Users
             {
                 Console.WriteLine("No available tickets!\n");
             }
+        }
+        public IEnumerable<Ticket> SearchParametersService(Ticket search)
+        {
+            var tickets = _ticketList.Where(t => t.Equals(search)).ToList();
+            if (tickets is not null)
+            {
+                foreach (var ticket in tickets)
+                {
+                    yield return ticket;
+                }
+            }
+        }
+        public void Add(Ticket ticket)
+        {
+            _myTicketList.Add(ticket);
         }
         public void Search()
         {
@@ -147,12 +157,11 @@ namespace Airport_Ticket_Booking_System.Users
                             $"|              |_______ Flight:\n" +
                             $"|                          |_ From: {ticket.Flight.DepartureCountry} ({ticket.Flight.DepartureAirport})\n" +
                             $"|                          |_ To: {ticket.Flight.DestinationCountry} ({ticket.Flight.ArrivalAirport})\n" +
-                            $"|                          |_ Departure: {ticket.Flight.DepartureDate:yyyy-MM-dd HH:mm}\n";            }
+                            $"|                          |_ Departure: {ticket.Flight.DepartureDate:yyyy-MM-dd HH:mm}\n";
+            }
 
             return toString;
         }
-
-
     }
 }
 

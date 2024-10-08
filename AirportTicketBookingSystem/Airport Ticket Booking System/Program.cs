@@ -1,7 +1,4 @@
-﻿using Airport_Ticket_Booking_System.Flights;
-using Airport_Ticket_Booking_System.Repositry;
-using Airport_Ticket_Booking_System.Tickets;
-using Airport_Ticket_Booking_System.Users;
+﻿using Airport_Ticket_Booking_System.Users;
 
 namespace Airport_Ticket_Booking_System
 {
@@ -9,7 +6,6 @@ namespace Airport_Ticket_Booking_System
     {
         public static void Main(string[] args)
         {
-
             while (true)
             {
                 Console.WriteLine("Choose Mode: ");
@@ -26,7 +22,6 @@ namespace Airport_Ticket_Booking_System
                 }
             }
         }
-
         public static void PassengerMenu()
         {
             Passenger p = new Passenger("202499", "Abdalkreem", DateTime.Parse("2003-07-24"), "0599929122");

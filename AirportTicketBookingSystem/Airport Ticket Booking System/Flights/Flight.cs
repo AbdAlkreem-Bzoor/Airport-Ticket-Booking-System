@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Airport_Ticket_Booking_System.Flights.Attributes;
+﻿using Airport_Ticket_Booking_System.Flights.Attributes;
 
 namespace Airport_Ticket_Booking_System.Flights
 {
@@ -17,11 +11,11 @@ namespace Airport_Ticket_Booking_System.Flights
         [Countries("Destination Country", "Text", "Required")]
         public string? DestinationCountry { get; set; }
 
-        [DepartureDateTime("Departure Date", "Date Time", "Required, Allowed Range (today → future)")]
+        [DateTime("Departure Date", "Date Time", "Required, Allowed Range (today → future)")]
         public DateTime? DepartureDate { get; set; }
         public string? DepartureAirport { get; set; }
         public string? ArrivalAirport { get; set; }
-        private static int sequence = 0;
+        private static int sequence;
         public Flight(string? departureCountry, string? destinationCountry,
             DateTime? departureDate, string? departureAirport,
             string? arrivalAirport)
@@ -33,7 +27,6 @@ namespace Airport_Ticket_Booking_System.Flights
             DepartureAirport = departureAirport;
             ArrivalAirport = arrivalAirport;
         }
-
         public override string ToString()
         {
             return
@@ -44,7 +37,6 @@ namespace Airport_Ticket_Booking_System.Flights
                 $"Departure: {DepartureDate?.ToString("yyyy-MM-dd HH:mm")}\n";
             // →
         }
-
     }
 }
 

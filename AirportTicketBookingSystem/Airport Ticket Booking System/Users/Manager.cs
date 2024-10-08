@@ -1,19 +1,13 @@
 ﻿using Airport_Ticket_Booking_System.Flights;
 using Airport_Ticket_Booking_System.Repositry;
 using Airport_Ticket_Booking_System.Tickets;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking_System.Users
 {
     public class Manager : Person
     {
-        private List<Ticket> _ticketList = Repository.LoadTickets();
-        private List<Passenger> _passengerList = [];
-
+        private readonly List<Ticket> _ticketList = Repository.LoadTickets();
+        private readonly List<Passenger> _passengerList = [];
         public Manager(string? id, string? name,
             DateTime? dateOfBirth, string? phoneNumber) : base(id, name, dateOfBirth, phoneNumber)
         {
@@ -42,9 +36,19 @@ namespace Airport_Ticket_Booking_System.Users
                 Console.WriteLine(ticket);
             }
         }
+        public IEnumerable<Ticket> SearchParametersService(Ticket? search, Passenger? passenger)
+        {
+            var tickets = _ticketList.Where(t => t.Equals(search)).ToList();
+            if (tickets is not null)
+            {
+                foreach (var ticket in tickets)
+                {
+                    yield return ticket;
+                }
+            }
+        }
         public void Search()
         {
-            
             Console.WriteLine("Enter Departure Country: ");
             var x = Console.ReadLine()?.Trim();
             var departureCountry = x == "null" ? null : x;

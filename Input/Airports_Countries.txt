@@ -1,19 +1,19 @@
-USA: JFK ()
-UK: LHR ()
-Germany: FRA ()
-Spain: MAD ()
-USA: LAX ()
-China: PEK ()
-India: DEL ()
-Brazil: GRU ()
-South Africa: JNB ()
-Russia: SVO ()
-Canada: YYZ ()
-Italy: FCO ()
-Spain: MAD ()
-France: CDG () 
-Germany: FRA ()
-Mexico: MEX () 
-South Korea: ICN ()
-Australia: SYD ()
-India: DEL ()
+USA: JFK
+UK: LHR
+Germany: FRA
+Spain: MAD
+USA: LAX
+China: PEK
+India: DEL
+Brazil: GRU
+South Africa: JNB 
+Russia: SVO 
+Canada: YYZ 
+Italy: FCO 
+Spain: MAD
+France: CDG
+Germany: FRA
+Mexico: MEX
+South Korea: ICN
+Australia: SYD
+India: DEL

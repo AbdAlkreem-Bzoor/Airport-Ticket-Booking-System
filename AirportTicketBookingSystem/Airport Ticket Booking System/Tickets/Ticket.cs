@@ -1,16 +1,10 @@
 ﻿using Airport_Ticket_Booking_System.Flights;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking_System.Tickets
 {
     public class Ticket
     {
-        private static int sequence = 0;
-
+        private static int sequence;
         public Ticket(Flight flight, FlightClass? flightClass, double? price)
         {
             Id = sequence++;
@@ -19,9 +13,9 @@ namespace Airport_Ticket_Booking_System.Tickets
             Price = price;
         }
         public int Id { get; init; }
-        public Flight Flight { get; init; }
-        public FlightClass? FlightClass { get; init; }
-        public double? Price { get; init; }
+        public Flight Flight { get; set; }
+        public FlightClass? FlightClass { get; set; }
+        public double? Price { get; set; }
 
         /// <summary>
         /// This Method will check the equality between two tickets ignoring the null fileds of the two objects
