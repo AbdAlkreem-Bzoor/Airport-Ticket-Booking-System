@@ -1,0 +1,5 @@
+USA,Canada,2024-11-01 00:00:00,JFK,YYZ,Economy,150
+UK,France,2024-11-05 00:00:00,LHR,CDG,Business,250
+Germany,Italy,2024-11-10 00:00:00,FRA,FCO,FirstClass,500
+Spain,Portugal,2024-11-15 00:00:00,MAD,LIS,Economy,120
+USA,Mexico,2024-11-20 00:00:00,LAX,MEX,Economy,200
