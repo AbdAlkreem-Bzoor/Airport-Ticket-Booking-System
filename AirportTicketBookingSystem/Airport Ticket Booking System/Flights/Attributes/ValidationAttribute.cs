@@ -8,7 +8,6 @@
             Type = "Type: " + type;
             Constraint = "Constraint: " + constraint;
         }
-
         public string Property { get; init; }
         public string Type { get; init; }
         public string Constraint { get; init; }

@@ -3,13 +3,7 @@ using Airport_Ticket_Booking_System.Flights;
 using Airport_Ticket_Booking_System.Flights.Attributes;
 using Airport_Ticket_Booking_System.Tickets;
 using Airport_Ticket_Booking_System.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Airport_Ticket_Booking_System.Repositry
 {
@@ -17,7 +11,7 @@ namespace Airport_Ticket_Booking_System.Repositry
     {
         public static void WriteTicketsData(List<Ticket> tickets)
         {
-            string path = @$"D:\OneDrive\Desktop\Airport Ticket Booking System\Output\TicketsOutputData.txt";
+            string path = @"D:\OneDrive\Desktop\Airport Ticket Booking System\Output\TicketsOutputData.txt";
             using (var writer = new StreamWriter(path))
             {
                 foreach (var ticket in tickets)
@@ -53,7 +47,6 @@ namespace Airport_Ticket_Booking_System.Repositry
             }
             return tickets;
         }
-
         private static void DisplayErrors(List<Error> errors)
         {
             Console.WriteLine($"There is {errors.Count} errors in the input data, reinput them based on these conditions: ");
@@ -63,7 +56,6 @@ namespace Airport_Ticket_Booking_System.Repositry
                 Console.WriteLine();
             }
         }
-
         private static void CheckForErrors(List<Ticket> tickets, List<Error> errors)
         {
             foreach (var ticket in tickets)
@@ -73,19 +65,17 @@ namespace Airport_Ticket_Booking_System.Repositry
                 CheckProperties(errors, flight, properties);
             }
         }
-
         private static void CheckProperties(List<Error> errors, Flight flight, PropertyInfo[] properties)
         {
             foreach (var property in properties)
             {
                 var value = property.GetValue(flight);
                 var attributes = property.GetCustomAttributes();
-                ValidateAttributes(errors, flight, properties, value, attributes);
+                ValidateAttributes(errors, properties, value, attributes);
 
             }
         }
-
-        private static void ValidateAttributes(List<Error> errors, Flight flight, PropertyInfo[] properties, object? value, IEnumerable<Attribute> attributes)
+        private static void ValidateAttributes(List<Error> errors, PropertyInfo[] properties, object? value, IEnumerable<Attribute> attributes)
         {
             foreach (var attribute in attributes)
             {
@@ -97,9 +87,9 @@ namespace Airport_Ticket_Booking_System.Repositry
                         AddError(errors, attr);
                     }
                 }
-                else if (attribute is DepartureDateTimeAttribute)
+                else if (attribute is DateTimeAttribute)
                 {
-                    var attr = (DepartureDateTimeAttribute)attribute;
+                    var attr = (DateTimeAttribute)attribute;
                     if (!attr.IsValid((DateTime?)value))
                     {
                         AddError(errors, attr);
@@ -107,14 +97,12 @@ namespace Airport_Ticket_Booking_System.Repositry
                 }
             }
         }
-
         private static void AddError(List<Error> errors, ValidationAttribute attr)
         {
             errors.Add(new Error(attr.Property + "\n",
                                         "\t" + attr.Type + "\n" +
                                         "\t" + attr.Constraint + "\n"));
         }
-
         public static void WritePassengersData(List<Passenger> passengers)
         {
             string path = @$"D:\OneDrive\Desktop\Airport Ticket Booking System\Output\PassengersOutputData.txt";
@@ -160,7 +148,6 @@ namespace Airport_Ticket_Booking_System.Repositry
             }
             return countriesAirports;
         }
-
     }
-    
+
 }
