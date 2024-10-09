@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build and Test Airport Ticket Booking System
 
 on:
   push:
@@ -13,24 +13,22 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Checkout the repository
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Set up .NET environment
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '8.x'  # Specify the .NET version you are using
+          dotnet-version: '8.x'
 
-      # Restore dependencies
       - name: Restore dependencies
-        run: dotnet restore AirportTicketBookingSystem/AirportTicketBookingSystem.sln
+        run: dotnet restore "Airport_Ticket_Booking_System/airport_ticket_booking_system.sln"
 
-      # Build the solution
-      - name: Build solution
-        run: dotnet build AirportTicketBookingSystem/AirportTicketBookingSystem.sln --configuration Release --no-restore
+      - name: Build the solution
+        run: dotnet build "Airport_Ticket_Booking_System/airport_ticket_booking_system.sln" --configuration Release
 
-      # Run tests
-      - name: Run tests
-        run: dotnet test AirportTicketBookingSystem/AirportTicketBookingSystem.sln --no-build --verbosity normal
+      - name: Run Tests
+        run: |
+          dotnet test "Airport_Ticket_Booking_System/airport_ticket_booking_system.sln" --no-build --verbosity normal
+        env:
+          DOTNET_CLI_HOME: $(Build.ArtifactStagingDirectory)

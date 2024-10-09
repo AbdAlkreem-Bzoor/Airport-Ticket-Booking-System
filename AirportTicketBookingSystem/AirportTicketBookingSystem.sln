@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airport Ticket Booking System", "Airport Ticket Booking System\Airport Ticket Booking System.csproj", "{55A2D841-F8AA-496D-AE7C-9BC20D9A48C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airport_Ticket_Booking_System", "Airport Ticket Booking System\Airport_Ticket_Booking_System.csproj", "{55A2D841-F8AA-496D-AE7C-9BC20D9A48C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Airport Ticket Booking System.Tests", "Airport Ticket Booking System.Tests\Airport Ticket Booking System.Tests.csproj", "{AB08324F-99AA-4A1A-A973-D3DF746BC757}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Airport_Ticket_Booking_System.Tests", "Airport Ticket Booking System.Tests\Airport_Ticket_Booking_System.Tests.csproj", "{AB08324F-99AA-4A1A-A973-D3DF746BC757}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

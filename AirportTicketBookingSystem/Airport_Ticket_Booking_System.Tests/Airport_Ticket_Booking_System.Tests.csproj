@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Airport Ticket Booking System\Airport Ticket Booking System.csproj" />
+    <ProjectReference Include="..\Airport Ticket Booking System\Airport_Ticket_Booking_System.csproj" />
   </ItemGroup>
 
   <ItemGroup>
