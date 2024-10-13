@@ -485,3 +485,11 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Ignore Visual Studio temporary files, build results, and
+# common project files such as bin and obj
+bin/
+obj/
+.vs/
+*.user
+*.suo
