@@ -127,3 +127,4 @@ paket-files/
 # Allow .csproj and .sln files to be tracked
 !*.csproj
 !*.sln
+
